@@ -102,17 +102,20 @@ async function listPaginated({
   search = "",
   sparkline = true,
   liveCompatible = false,
+  top100 = false,
 }: MarketListRequestParams): Promise<CurrencyData[]> {
   let ids = _ids;
 
-  if (search) {
+  if (top100) limit = 100;
+
+  if (search && !top100) {
     ids = SUPPORTED_COINS_LIST.filter(matchSearch(search)).map(({ id }) => id);
     if (!ids.length) {
       return [];
     }
   }
 
-  if (liveCompatible) {
+  if (liveCompatible && !top100) {
     if (ids.length > 0) {
       ids = LIVE_COINS_LIST.filter((id) => ids.includes(id));
     } else {
@@ -120,7 +123,7 @@ async function listPaginated({
     }
   }
 
-  if (starred.length > 0) {
+  if (starred.length > 0 && !top100) {
     if (ids.length > 0) {
       ids = starred.filter((id) => ids.includes(id));
     } else {
@@ -137,10 +140,24 @@ async function listPaginated({
     }&price_change_percentage=${range}` +
     `${ids.length > 0 ? `&page=1&&ids=${ids.toString()}` : `&page=${page}`}`;
 
-  const { data } = await network({
+  let { data } = await network({
     method: "GET",
     url,
   });
+
+  if (top100) {
+    data = data
+      .sort(
+        (a, b) =>
+          b[`price_change_percentage_${range}_in_currency`] -
+          a[`price_change_percentage_${range}_in_currency`]
+      )
+      .filter((currency) => {
+        if (!search) return true;
+        const match = `${currency.symbol}|${currency.name}`;
+        return match.toLowerCase().includes(search.toLowerCase());
+      });
+  }
 
   return data.map(
     (currency: {
