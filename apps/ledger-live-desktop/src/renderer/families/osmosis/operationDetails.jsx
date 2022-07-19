@@ -3,10 +3,10 @@ import { BigNumber } from "bignumber.js";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Trans } from "react-i18next";
-import { getAccountCurrency, getAccountUnit } from "@ledgerhq/live-common/lib/account";
-import { formatCurrencyUnit } from "@ledgerhq/live-common/lib/currencies";
-import { useCosmosFamilyPreloadData } from "@ledgerhq/live-common/lib/families/cosmos/react";
-import type { Operation, Account } from "@ledgerhq/live-common/lib/types";
+import { getAccountCurrency, getAccountUnit } from "@ledgerhq/live-common/account/index";
+import { formatCurrencyUnit } from "@ledgerhq/live-common/currencies/index";
+import { useCosmosFamilyPreloadData } from "@ledgerhq/live-common/families/cosmos/react";
+import type { Operation, Account } from "@ledgerhq/live-common/types/index";
 
 import { urls } from "~/config/urls";
 import {
