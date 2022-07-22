@@ -375,9 +375,9 @@ export class OsmosisAPI extends CosmosAPI {
           amount: new BigNumber(
             getMicroOsmoAmount([redelegEvent.amount.delegate])
           ),
-          sourceValidator: redelegEvent.node.validator_source[0].id,
         },
       ],
+      sourceValidator: redelegEvent.node.validator_source[0].id,
     };
 
     // BEGIN EXPERIMENTAL ------------

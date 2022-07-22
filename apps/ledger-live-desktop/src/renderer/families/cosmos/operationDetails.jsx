@@ -125,7 +125,6 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
   const locale = useSelector(localeSelector);
   const currencyName = account.currency.name.toLowerCase();
   const { validators: cosmosValidators } = useCosmosFamilyPreloadData(currencyName);
-  const { claimedRewards } = extra;
 
   const formatConfig = {
     disableRounding: true,
@@ -204,11 +203,6 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
       );
 
       const formattedAmount = formatCurrencyUnit(unit, BigNumber(validator.amount), formatConfig);
-      const claimedRewardsAmount = formatCurrencyUnit(
-        unit,
-        BigNumber(claimedRewards?.amount),
-        formatConfig,
-      );
 
       ret = (
         <>
@@ -240,12 +234,6 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
               <Trans i18nKey={"operationDetails.extra.redelegatedAmount"} />
             </OpDetailsTitle>
             <OpDetailsData>{formattedAmount}</OpDetailsData>
-          </OpDetailsSection>
-          <OpDetailsSection>
-            <OpDetailsTitle>
-              <Trans i18nKey={"operationDetails.extra.rewards"} />
-            </OpDetailsTitle>
-            <OpDetailsData>{claimedRewardsAmount}</OpDetailsData>
           </OpDetailsSection>
         </>
       );

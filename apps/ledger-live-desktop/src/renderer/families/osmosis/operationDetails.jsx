@@ -50,7 +50,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
   const locale = useSelector(localeSelector);
 
   const currencyName = account.currency.name.toLowerCase();
-  const { validators } = useCosmosFamilyPreloadData(currencyName);
+  const { validators: osmosisValidators } = useCosmosFamilyPreloadData(currencyName);
 
   const formatConfig = {
     disableRounding: true,
@@ -65,6 +65,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
   const { claimedRewards } = extra;
   console.log("claimedRewards: ", claimedRewards);
   console.log("extra: ", extra);
+  console.log("type is:", type);
 
   switch (type) {
     case "DELEGATE": {
@@ -79,7 +80,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             currency={currency}
             delegations={delegations}
             account={account}
-            validators={validators}
+            validators={osmosisValidators}
           />
           {claimedRewards != null ? (
             <OpDetailsSection>
@@ -98,7 +99,9 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
       const { validators: undelegations } = extra;
       if (!undelegations || undelegations.length <= 0) return null;
       const validator = extra.validators[0];
-      const formattedValidator = validators.find(v => v.validatorAddress === validator.address);
+      const formattedValidator = osmosisValidators.find(
+        v => v.validatorAddress === validator.address,
+      );
       const formattedAmount = formatCurrencyUnit(unit, BigNumber(validator.amount), formatConfig);
 
       ret = (
@@ -126,17 +129,37 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
       break;
     }
     case "REDELEGATE": {
-      const { sourceValidator, validators } = extra;
-      if (!validators || validators.length <= 0 || !sourceValidator) return null;
-
+      const { sourceValidator, validators: redelegations } = extra;
+      console.log("REDELEGATEextra is: ", extra);
+      console.log("redelegations is: ", redelegations);
+      if (!redelegations) {
+        console.log("not redelegations");
+      } else {
+        console.log("OK 1");
+      }
+      if (redelegations.length <= 0) {
+        console.log("not redelegations.length");
+      } else {
+        console.log("OK 2");
+      }
+      if (!sourceValidator) {
+        console.log("not source validator");
+      } else {
+        console.log("OK 3");
+      }
+      if (!redelegations || redelegations.length <= 0 || !sourceValidator) return null;
+      console.log(`hello from redelegate: ${JSON.stringify(extra)}`);
       const validator = extra.validators[0];
-
-      const formattedValidator = validators.find(v => v.validatorAddress === validator.address);
-
-      const formattedSourceValidator = validators.find(v => v.validatorAddress === sourceValidator);
+      const formattedValidator = osmosisValidators.find(
+        v => v.validatorAddress === validator.address,
+      );
+      const formattedSourceValidator = osmosisValidators.find(
+        v => v.validatorAddress === sourceValidator,
+      );
 
       const formattedAmount = formatCurrencyUnit(unit, BigNumber(validator.amount), formatConfig);
 
+      console.log("got here: ");
       ret = (
         <>
           <B />
@@ -188,7 +211,9 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
 
       const validator = extra.validators[0];
 
-      const formattedValidator = validators.find(v => v.validatorAddress === validator.address);
+      const formattedValidator = osmosisValidators.find(
+        v => v.validatorAddress === validator.address,
+      );
 
       ret = (
         <>
