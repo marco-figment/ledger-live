@@ -85,7 +85,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
           {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
-                <Trans i18nKey={"operationDetails.extra.rewards"} />
+                <Trans i18nKey={"operationDetails.extra.autoClaimedRewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
                 {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
@@ -127,7 +127,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
           {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
-                <Trans i18nKey={"operationDetails.extra.rewards"} />
+                <Trans i18nKey={"operationDetails.extra.autoClaimedRewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
                 {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
@@ -185,7 +185,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
           {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
-                <Trans i18nKey={"operationDetails.extra.rewards"} />
+                <Trans i18nKey={"operationDetails.extra.autoClaimedRewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
                 {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
