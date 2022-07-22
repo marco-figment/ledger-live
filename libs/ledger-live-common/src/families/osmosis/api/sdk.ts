@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { async } from "rxjs";
 import { getEnv } from "../../../env";
 import network from "../../../network";
 import { encodeOperationId } from "../../../operation";
@@ -308,32 +309,8 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
+      claimedRewards: this.calculateRewards(tx).toString(),
     };
-
-    // BEGIN EXPERIMENTAL ------------
-    let amount = new BigNumber(0);
-    if (delegateEvent.transfers != null) {
-      if (delegateEvent.transfers.reward) {
-        amount = getMicroOsmoAmount(delegateEvent.transfers.reward[0].amounts);
-      }
-    }
-    let rewardOperation;
-    if (amount.gt(0)) {
-      // Option 1: Append rewards to extra
-      extra["claimedRewards"] = amount.toString();
-      // Option 2: Return additional operation
-      rewardOperation = convertTransactionToOperation(
-        accountId,
-        "REWARD",
-        amount,
-        tx,
-        [],
-        [],
-        extra
-      );
-      if (rewardOperation != null) ops.push(rewardOperation);
-    }
-    // END EXPERIMENTAL ------------
 
     ops.push(
       convertTransactionToOperation(
@@ -349,6 +326,41 @@ export class OsmosisAPI extends CosmosAPI {
     return ops;
   };
 
+  calculateRewards = (tx: OsmosisAccountTransaction): BigNumber => {
+    let totalRewardsAmount = new BigNumber(0);
+    tx.events.forEach((event) => {
+      if (Object.prototype.hasOwnProperty.call(event, "sub")) {
+        const eventContent: OsmosisStakingEventContent[] =
+          event.sub as OsmosisStakingEventContent[];
+        if (eventContent.length > 0) {
+          const rewardEvent = eventContent[0];
+          if (rewardEvent != null) {
+            let amount = new BigNumber(0);
+            if (rewardEvent.transfers != null) {
+              if (rewardEvent.transfers.reward) {
+                amount = getMicroOsmoAmount(
+                  rewardEvent.transfers.reward[0].amounts
+                );
+                totalRewardsAmount = totalRewardsAmount.plus(amount);
+              }
+            }
+          }
+        }
+      }
+    });
+    return totalRewardsAmount;
+  };
+
+  // backfillRewards = (
+  //   hash: string,
+  //   reward: BigNumber,
+  //   operations: Operation[]
+  // ): Operation[] => {
+  //   operations
+  //     .filter((op) => op.hash === hash)
+  //     .forEach((op) => (op.extra["claimedRewards"] = reward));
+  //   return operations;
+  // };
   convertRedelegateTransactionToOperation = async (
     accountId: string,
     event: any,
@@ -378,32 +390,8 @@ export class OsmosisAPI extends CosmosAPI {
         },
       ],
       sourceValidator: redelegEvent.node.validator_source[0].id,
+      claimedRewards: this.calculateRewards(tx).toString(),
     };
-
-    // BEGIN EXPERIMENTAL ------------
-    let amount = new BigNumber(0);
-    if (redelegEvent.transfers != null) {
-      if (redelegEvent.transfers.reward) {
-        amount = getMicroOsmoAmount(redelegEvent.transfers.reward[0].amounts);
-      }
-    }
-    let rewardOperation;
-    if (amount.gt(0)) {
-      // Option 1: Append rewards to extra
-      extra["claimedRewards"] = amount.toString();
-      // Option 2: Return additional operation
-      rewardOperation = convertTransactionToOperation(
-        accountId,
-        "REWARD",
-        amount,
-        tx,
-        [],
-        [],
-        extra
-      );
-      if (rewardOperation != null) ops.push(rewardOperation);
-    }
-    // END EXPERIMENTAL ------------
 
     ops.push(
       convertTransactionToOperation(
@@ -447,32 +435,8 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
+      claimedRewards: this.calculateRewards(tx).toString(),
     };
-
-    // BEGIN EXPERIMENTAL ------------
-    let amount = new BigNumber(0);
-    if (undelegEvent.transfers != null) {
-      if (undelegEvent.transfers.reward) {
-        amount = getMicroOsmoAmount(undelegEvent.transfers.reward[0].amounts);
-      }
-    }
-    let rewardOperation;
-    if (amount.gt(0)) {
-      // Option 1: Append rewards to extra
-      extra["claimedRewards"] = amount.toString();
-      // Option 2: Return additional operation
-      rewardOperation = convertTransactionToOperation(
-        accountId,
-        "REWARD",
-        amount,
-        tx,
-        [],
-        [],
-        extra
-      );
-      if (rewardOperation != null) ops.push(rewardOperation);
-    }
-    // END EXPERIMENTAL ------------
 
     ops.push(
       convertTransactionToOperation(

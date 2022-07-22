@@ -62,10 +62,10 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
 
   let ret = null;
 
-  const { claimedRewards } = extra;
-  console.log("claimedRewards: ", claimedRewards);
-  console.log("extra: ", extra);
-  console.log("type is:", type);
+  let { claimedRewards } = extra;
+  if (claimedRewards != null) {
+    claimedRewards = new BigNumber(claimedRewards);
+  }
 
   switch (type) {
     case "DELEGATE": {
@@ -82,13 +82,13 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             account={account}
             validators={osmosisValidators}
           />
-          {claimedRewards != null ? (
+          {claimedRewards != null && claimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
                 <Trans i18nKey={"operationDetails.extra.rewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
-                {formatCurrencyUnit(unit, new BigNumber(claimedRewards), formatConfig)}
+                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
               </OpDetailsData>
             </OpDetailsSection>
           ) : null}
@@ -124,6 +124,16 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             </OpDetailsTitle>
             <OpDetailsData>{formattedAmount}</OpDetailsData>
           </OpDetailsSection>
+          {claimedRewards != null && claimedRewards.gt(0) ? (
+            <OpDetailsSection>
+              <OpDetailsTitle>
+                <Trans i18nKey={"operationDetails.extra.rewards"} />
+              </OpDetailsTitle>
+              <OpDetailsData>
+                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
+              </OpDetailsData>
+            </OpDetailsSection>
+          ) : null}
         </>
       );
       break;
@@ -141,7 +151,6 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
 
       const formattedAmount = formatCurrencyUnit(unit, BigNumber(validator.amount), formatConfig);
 
-      console.log("got here: ");
       ret = (
         <>
           <B />
@@ -173,13 +182,13 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             </OpDetailsTitle>
             <OpDetailsData>{formattedAmount}</OpDetailsData>
           </OpDetailsSection>
-          {claimedRewards != null ? (
+          {claimedRewards != null && claimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
                 <Trans i18nKey={"operationDetails.extra.rewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
-                {formatCurrencyUnit(unit, new BigNumber(claimedRewards), formatConfig)}
+                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
               </OpDetailsData>
             </OpDetailsSection>
           ) : null}
