@@ -12,7 +12,7 @@ function formatOperationSpecifics(
   op: CosmosOperation,
   unit: Unit | null | undefined
 ): string {
-  const { validators, claimedRewards } = op.extra;
+  const { validators, autoClaimedRewards } = op.extra;
   console.log("hello");
   const validatorsString = (validators || [])
     .map(
@@ -29,7 +29,7 @@ function formatOperationSpecifics(
     .join("");
 
   const rewards = "";
-  // const rewards = (claimedRewards || [])
+  // const rewards = (autoClaimedRewards || [])
   //   .map(
   //     (r) =>
   //       `\n auto claimed reward: ${

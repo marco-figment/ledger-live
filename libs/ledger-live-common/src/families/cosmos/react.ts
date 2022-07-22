@@ -197,8 +197,10 @@ export function useMappedExtraOperationDetails({
       ? mapDelegationInfo([extra.validator], validators, unit)[0]
       : undefined,
     sourceValidator: extra.sourceValidator ? extra.sourceValidator : undefined,
-    claimedRewards:
-      extra.claimedRewards != null ? extra.claimedRewards : "empty string",
+    autoClaimedRewards:
+      extra.autoClaimedRewards != null
+        ? extra.autoClaimedRewards
+        : "empty string",
   };
 }
 

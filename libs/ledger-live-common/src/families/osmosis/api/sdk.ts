@@ -211,7 +211,6 @@ export class OsmosisAPI extends CosmosAPI {
             break;
           }
           case OsmosisTransactionTypeEnum.Reward: {
-            // const txHash = accountTransactions[i].hash;
             // For the time being we'll be creating duplicate ops for the edge case of
             // rewards txs that contain multiple claim messages.
             // The idea is that a few duplicate operations won't affect performance
@@ -309,7 +308,7 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
-      claimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateRewards(tx).toString(),
     };
 
     ops.push(
@@ -358,7 +357,7 @@ export class OsmosisAPI extends CosmosAPI {
   // ): Operation[] => {
   //   operations
   //     .filter((op) => op.hash === hash)
-  //     .forEach((op) => (op.extra["claimedRewards"] = reward));
+  //     .forEach((op) => (op.extra["autoClaimedRewards"] = reward));
   //   return operations;
   // };
   convertRedelegateTransactionToOperation = async (
@@ -390,7 +389,7 @@ export class OsmosisAPI extends CosmosAPI {
         },
       ],
       sourceValidator: redelegEvent.node.validator_source[0].id,
-      claimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateRewards(tx).toString(),
     };
 
     ops.push(
@@ -435,7 +434,7 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
-      claimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateRewards(tx).toString(),
     };
 
     ops.push(

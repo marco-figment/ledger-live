@@ -62,9 +62,9 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
 
   let ret = null;
 
-  let { claimedRewards } = extra;
-  if (claimedRewards != null) {
-    claimedRewards = new BigNumber(claimedRewards);
+  let { autoClaimedRewards } = extra;
+  if (autoClaimedRewards != null) {
+    autoClaimedRewards = new BigNumber(autoClaimedRewards);
   }
 
   switch (type) {
@@ -82,13 +82,13 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             account={account}
             validators={osmosisValidators}
           />
-          {claimedRewards != null && claimedRewards.gt(0) ? (
+          {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
                 <Trans i18nKey={"operationDetails.extra.rewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
-                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
+                {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
               </OpDetailsData>
             </OpDetailsSection>
           ) : null}
@@ -124,13 +124,13 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             </OpDetailsTitle>
             <OpDetailsData>{formattedAmount}</OpDetailsData>
           </OpDetailsSection>
-          {claimedRewards != null && claimedRewards.gt(0) ? (
+          {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
                 <Trans i18nKey={"operationDetails.extra.rewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
-                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
+                {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
               </OpDetailsData>
             </OpDetailsSection>
           ) : null}
@@ -182,13 +182,13 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
             </OpDetailsTitle>
             <OpDetailsData>{formattedAmount}</OpDetailsData>
           </OpDetailsSection>
-          {claimedRewards != null && claimedRewards.gt(0) ? (
+          {autoClaimedRewards != null && autoClaimedRewards.gt(0) ? (
             <OpDetailsSection>
               <OpDetailsTitle>
                 <Trans i18nKey={"operationDetails.extra.rewards"} />
               </OpDetailsTitle>
               <OpDetailsData>
-                {formatCurrencyUnit(unit, claimedRewards, formatConfig)}
+                {formatCurrencyUnit(unit, autoClaimedRewards, formatConfig)}
               </OpDetailsData>
             </OpDetailsSection>
           ) : null}
