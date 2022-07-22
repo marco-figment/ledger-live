@@ -130,25 +130,7 @@ const OperationDetailsExtra = ({ extra, type, account }: OperationDetailsExtraPr
     }
     case "REDELEGATE": {
       const { sourceValidator, validators: redelegations } = extra;
-      console.log("REDELEGATEextra is: ", extra);
-      console.log("redelegations is: ", redelegations);
-      if (!redelegations) {
-        console.log("not redelegations");
-      } else {
-        console.log("OK 1");
-      }
-      if (redelegations.length <= 0) {
-        console.log("not redelegations.length");
-      } else {
-        console.log("OK 2");
-      }
-      if (!sourceValidator) {
-        console.log("not source validator");
-      } else {
-        console.log("OK 3");
-      }
       if (!redelegations || redelegations.length <= 0 || !sourceValidator) return null;
-      console.log(`hello from redelegate: ${JSON.stringify(extra)}`);
       const validator = extra.validators[0];
       const formattedValidator = osmosisValidators.find(
         v => v.validatorAddress === validator.address,
