@@ -897,7 +897,6 @@ importers:
       '@hashgraph/sdk': ^2.10.1
       '@keplr-wallet/cosmos': ^0.9.16
       '@keplr-wallet/proto-types': ^0.10.4
-      '@keplr-wallet/unit': ^0.10.5
       '@ledgerhq/compressjs': github:LedgerHQ/compressjs#d9e8e4d994923e0ea76a32b97289bcccfe71b82e
       '@ledgerhq/cryptoassets': workspace:^
       '@ledgerhq/devices': workspace:^
@@ -1063,7 +1062,6 @@ importers:
       '@ethereumjs/tx': 3.5.1
       '@hashgraph/sdk': 2.14.2
       '@keplr-wallet/cosmos': 0.9.16
-      '@keplr-wallet/unit': 0.10.5
       '@ledgerhq/compressjs': github.com/LedgerHQ/compressjs/d9e8e4d994923e0ea76a32b97289bcccfe71b82e
       '@ledgerhq/cryptoassets': link:../ledgerjs/packages/cryptoassets
       '@ledgerhq/devices': link:../ledgerjs/packages/devices
@@ -9119,16 +9117,6 @@ packages:
       protobufjs: 6.11.2
     dev: true
 
-  /@keplr-wallet/types/0.10.5:
-    resolution: {integrity: sha512-CY1F+Rsfe2fs5uPioC1o80lKxQWsYHIwoILLptdebr2Sg1DjSuWVLHWScsB8EbBGm0LQQ9nQ+3LHklbsTNo2bw==}
-    dependencies:
-      '@cosmjs/launchpad': 0.24.1
-      '@cosmjs/proto-signing': 0.24.1
-      axios: 0.21.4
-      long: 4.0.0
-      secretjs: 0.17.5
-    dev: false
-
   /@keplr-wallet/types/0.9.12:
     resolution: {integrity: sha512-vtAczeD3+CgGExSZCnU9Wzs9Y8BpdbOii+UjIFHwCR57OXFQphbWHh2j15QFpV4CbebpDcBzIm+/4IAyLeI0Yw==}
     dependencies:
@@ -9137,14 +9125,6 @@ packages:
       axios: 0.21.4
       long: 4.0.0
       secretjs: 0.17.5
-    dev: false
-
-  /@keplr-wallet/unit/0.10.5:
-    resolution: {integrity: sha512-7rk8IskEzo3/rM89XsaLpkzWPcYjsNCl8lbKjkPEjQ5hbmz7g352YoE9L1EhjgT0zCHfop/yM2CP8e/hq8AIog==}
-    dependencies:
-      '@keplr-wallet/types': 0.10.5
-      big-integer: 1.6.51
-      utility-types: 3.10.0
     dev: false
 
   /@keplr-wallet/unit/0.9.12:
