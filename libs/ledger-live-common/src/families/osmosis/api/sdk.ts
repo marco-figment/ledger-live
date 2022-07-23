@@ -1,5 +1,4 @@
 import BigNumber from "bignumber.js";
-import { async } from "rxjs";
 import { getEnv } from "../../../env";
 import network from "../../../network";
 import { encodeOperationId } from "../../../operation";
@@ -308,7 +307,7 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
-      autoClaimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateAutoClaimedRewards(tx).toString(),
     };
 
     ops.push(
@@ -325,7 +324,13 @@ export class OsmosisAPI extends CosmosAPI {
     return ops;
   };
 
-  calculateRewards = (tx: OsmosisAccountTransaction): BigNumber => {
+  calculateAutoClaimedRewards = (tx: OsmosisAccountTransaction): BigNumber => {
+    //  These types are the only types for which auto claim rewards are supported
+    const SUPPORTED_TYPES = [
+      OsmosisTransactionTypeEnum.Delegate,
+      OsmosisTransactionTypeEnum.Redelegate,
+      OsmosisTransactionTypeEnum.Undelegate,
+    ];
     let totalRewardsAmount = new BigNumber(0);
     tx.events.forEach((event) => {
       if (Object.prototype.hasOwnProperty.call(event, "sub")) {
@@ -333,7 +338,10 @@ export class OsmosisAPI extends CosmosAPI {
           event.sub as OsmosisStakingEventContent[];
         if (eventContent.length > 0) {
           const rewardEvent = eventContent[0];
-          if (rewardEvent != null) {
+          if (
+            rewardEvent != null &&
+            SUPPORTED_TYPES.includes(rewardEvent.type[0])
+          ) {
             let amount = new BigNumber(0);
             if (rewardEvent.transfers != null) {
               if (rewardEvent.transfers.reward) {
@@ -350,16 +358,6 @@ export class OsmosisAPI extends CosmosAPI {
     return totalRewardsAmount;
   };
 
-  // backfillRewards = (
-  //   hash: string,
-  //   reward: BigNumber,
-  //   operations: Operation[]
-  // ): Operation[] => {
-  //   operations
-  //     .filter((op) => op.hash === hash)
-  //     .forEach((op) => (op.extra["autoClaimedRewards"] = reward));
-  //   return operations;
-  // };
   convertRedelegateTransactionToOperation = async (
     accountId: string,
     event: any,
@@ -389,7 +387,7 @@ export class OsmosisAPI extends CosmosAPI {
         },
       ],
       sourceValidator: redelegEvent.node.validator_source[0].id,
-      autoClaimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateAutoClaimedRewards(tx).toString(),
     };
 
     ops.push(
@@ -434,7 +432,7 @@ export class OsmosisAPI extends CosmosAPI {
           ),
         },
       ],
-      autoClaimedRewards: this.calculateRewards(tx).toString(),
+      autoClaimedRewards: this.calculateAutoClaimedRewards(tx).toString(),
     };
 
     ops.push(

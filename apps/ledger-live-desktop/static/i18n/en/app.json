@@ -1494,6 +1494,7 @@
       "memo": "Memo",
       "assetId": "Asset ID",
       "rewards": "Earned rewards",
+      "autoClaimedRewards": "Auto Claimed Rewards",
       "bondedAmount": "Bonded Amount",
       "unbondedAmount": "Unbonded Amount",
       "withdrawUnbondedAmount": "Withdrawn Amount",
