@@ -121,9 +121,8 @@ const Body = ({
   } = useBridgeTransaction(() => {
     const { account } = params;
 
-    // invariant(account && account.cosmosResources, "cosmos: account and cosmos resources required");
+    invariant(account && account.cosmosResources, "cosmos: account and cosmos resources required");
 
-    console.log("account: ", account);
     const bridge = getAccountBridge(account, undefined);
 
     const t = bridge.createTransaction(account);

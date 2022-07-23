@@ -125,7 +125,6 @@ const Body = ({
 
     invariant(account && account.cosmosResources, "Osmosis: account and cosmosResources required");
 
-    console.log("account: ", account);
     const bridge = getAccountBridge(account, undefined);
 
     const t = bridge.createTransaction(account);

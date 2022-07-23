@@ -500,14 +500,6 @@ export class OsmosisAPI extends CosmosAPI {
     return ops;
   };
 
-  queryMintParams = async (): Promise<OsmosisMintParams> => {
-    const { data } = await network({
-      method: "GET",
-      url: `${this._defaultEndpoint}/osmosis/mint/v1beta1/params`,
-    });
-    return data?.params;
-  };
-
   queryTotalSupply = async (
     minDenomUnit: string
   ): Promise<OsmosisTotalSupply> => {
@@ -517,22 +509,6 @@ export class OsmosisAPI extends CosmosAPI {
     });
     const { amount } = data;
     return { ...amount };
-  };
-
-  queryEpochProvisions = async (): Promise<OsmosisEpochProvisions> => {
-    const { data: epochProvisions } = await network({
-      method: "GET",
-      url: `${this._defaultEndpoint}/osmosis/mint/v1beta1/epoch_provisions`,
-    });
-    return epochProvisions;
-  };
-
-  queryEpochs = async (): Promise<OsmosisEpochs> => {
-    const { data: epochs } = await network({
-      method: "GET",
-      url: `${this._defaultEndpoint}/osmosis/epochs/v1beta1/epochs`,
-    });
-    return epochs;
   };
 
   queryPool = async (): Promise<OsmosisPool> => {

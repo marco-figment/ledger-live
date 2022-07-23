@@ -13,7 +13,6 @@ function formatOperationSpecifics(
   unit: Unit | null | undefined
 ): string {
   const { validators, autoClaimedRewards } = op.extra;
-  console.log("hello");
   const validatorsString = (validators || [])
     .map(
       (v) =>

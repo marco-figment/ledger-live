@@ -19,7 +19,6 @@ function formatOperationSpecifics(op: Operation): string {
   }
 
   if (autoClaimedRewards) {
-    console.log("->>>>>>>>>>>>>>> claimed rewards is: ", autoClaimedRewards);
     str += `\n auto claimed rewards is: ${autoClaimedRewards.toString()}`;
     // str += autoClaimedRewards
     //   .map((r) => `\n -> -> auto claimed reward: ${r}`)
@@ -45,11 +44,11 @@ export function fromOperationExtraRaw(
     };
   }
   if (extra && extra.autoClaimedRewards) {
-    console.log(
-      `fromOperationExtraRaw hit. extra.autoClaimedRewards is not undefined, therefore, extra is: ${JSON.stringify(
-        extra
-      )}`
-    );
+    // console.log(
+    //   `fromOperationExtraRaw hit. extra.autoClaimedRewards is not undefined, therefore, extra is: ${JSON.stringify(
+    //     extra
+    //   )}`
+    // );
   }
 
   // if (extra && extra.autoClaimedRewards) {
@@ -80,11 +79,11 @@ export function toOperationExtraRaw(
     };
   }
   if (extra && extra.autoClaimedRewards) {
-    console.log(
-      `extra.autoClaimedRewards is not undefined, therefore, extra is: ${JSON.stringify(
-        extra
-      )}`
-    );
+    // console.log(
+    //   `extra.autoClaimedRewards is not undefined, therefore, extra is: ${JSON.stringify(
+    //     extra
+    //   )}`
+    // );
   }
   //   e = {
   //     ...extra,

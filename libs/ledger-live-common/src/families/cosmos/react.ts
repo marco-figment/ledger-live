@@ -47,7 +47,6 @@ export function useCosmosFamilyPreloadData(
     getUpdates = getOsmosisPreloadDataUpdates;
   }
 
-  console.log("-> -> -> useCosmosFamilyPreloadData was called");
   const [state, setState] = useState(getCurrent);
   useEffect(() => {
     const sub = getUpdates().subscribe(setState);
