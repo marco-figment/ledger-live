@@ -7,7 +7,7 @@ import { connect, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { UserRefusedOnDevice } from "@ledgerhq/errors";
-import { addPendingOperation } from "@ledgerhq/live-common/account/index";
+import { addPendingOperation} from "@ledgerhq/live-common/account/index";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
 import { SyncSkipUnderPriority } from "@ledgerhq/live-common/bridge/react/index";
 import useBridgeTransaction from "@ledgerhq/live-common/bridge/useBridgeTransaction";
@@ -100,7 +100,8 @@ function Body({
     return { account: accountProp, transaction };
   });
 
-  const steps = useSteps();
+  const currencyName = account.currency.name.toLowerCase();
+  const steps = useSteps(currencyName);
   const error = transactionError || bridgeError;
 
   const handleRetry = useCallback(() => {
@@ -144,7 +145,7 @@ function Body({
   }
 
   const stepperProps = {
-    title: t("cosmos.undelegation.flow.title"),
+    title: t(`${currencyName}.undelegation.flow.title`),
     device,
     account,
     transaction,
