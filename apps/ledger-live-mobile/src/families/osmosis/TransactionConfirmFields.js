@@ -9,7 +9,10 @@ import {
 } from "@ledgerhq/live-common/account/index";
 import type { Account } from "@ledgerhq/types-live";
 import type { DeviceTransactionField } from "@ledgerhq/live-common/transaction/index";
-import type { Transaction } from "@ledgerhq/live-common/families/osmosis/types";
+import type {
+  Transaction,
+  TransactionStatus,
+} from "@ledgerhq/live-common/families/osmosis/types";
 import { useCosmosFamilyPreloadData } from "@ledgerhq/live-common/families/cosmos/react";
 import { mapDelegationInfo } from "@ledgerhq/live-common/families/cosmos/logic";
 import { useTheme } from "@react-navigation/native";
@@ -25,6 +28,7 @@ type FieldProps = {
   account: Account,
   transaction: Transaction,
   field: DeviceTransactionField,
+  status: TransactionStatus,
 };
 
 function CosmosDelegateValidatorsField({ account, transaction }: FieldProps) {
@@ -120,13 +124,22 @@ function Warning({ transaction }: FieldProps) {
   }
 }
 
-function OsmosisExtendedAmountField({ account, field }: FieldProps) {
+function OsmosisExtendedAmountField({
+  account,
+  status: { amount },
+  field,
+}: FieldProps) {
   const unit = getAccountUnit(account);
+
   return (
     <TextValueField
       label={field.label}
       value={
-        <CurrencyUnitValue unit={unit} value={field.value} disableRounding />
+        <CurrencyUnitValue
+          unit={unit}
+          value={field.value ?? amount}
+          disableRounding
+        />
       }
     />
   );
