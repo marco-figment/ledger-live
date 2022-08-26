@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { encodeAccountId } from "../../account";
 import type { GetAccountShape } from "../../bridge/jsHelpers";
 import { makeSync, makeScanAccounts, mergeOps } from "../../bridge/jsHelpers";
@@ -35,9 +36,23 @@ const getAccountShape: GetAccountShape = async (info) => {
 
   const accountRegistrationStatus = await getAccountRegistrationStatus(address);
 
-  const pendingWithdrawals = accountRegistrationStatus
-    ? await getPendingWithdrawals(address)
-    : [];
+  // const pendingWithdrawals = accountRegistrationStatus
+  //   ? await getPendingWithdrawals(address)
+  //   : [];
+  const pendingWithdrawals = [
+    [
+      {
+        value: new BigNumber("11000000000000000"),
+        time: new BigNumber("1661187183"),
+        index: 0,
+      },
+      {
+        value: new BigNumber("1000000000000000"),
+        time: new BigNumber("1661439326"),
+        index: 1,
+      },
+    ],
+  ];
 
   const votes = accountRegistrationStatus ? await getVotes(address) : [];
 

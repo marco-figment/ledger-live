@@ -89,14 +89,14 @@ function ManageAssetsNavigator() {
     });
   }, [onNavigate]);
 
-  // const onWithdraw = useCallback(() => {
-  //   onNavigate({
-  //     route: NavigatorName.CosmosDelegationFlow,
-  //     screen: ScreenName.CosmosDelegationStarted,
-  //     params: {},
-  //   });
+  const onWithdraw = useCallback(() => {
+    onNavigate({
+      route: NavigatorName.CeloWithdrawFlow,
+      screen: ScreenName.CeloWithdrawAmount,
+      params: {},
+    });
 
-  // }, [onNavigate]);
+  }, [onNavigate]);
 
   const onVote = useCallback(() => {
     onNavigate({
@@ -121,6 +121,7 @@ function ManageAssetsNavigator() {
   const votingEnabled = celoResources.nonvotingLockedBalance?.gt(0);
   const activatingEnabled = hasActivatableVotes(account as CeloAccount);
   const revokingEnabled = hasRevokableVotes(account as CeloAccount);
+  const withdrawEnabled = true;
 
   return (
     <SafeAreaView
@@ -156,11 +157,11 @@ function ManageAssetsNavigator() {
         />
         <Button
           event="Celo Withdraw Click"
-          onPress={onLock}
+          onPress={onWithdraw}
           type="main"
           title={t("celo.manage.withdraw.title")}
           containerStyle={styles.button}
-          disabled={true}
+          disabled={!withdrawEnabled}
         />
         <Button
           event="Celo Vote Click"

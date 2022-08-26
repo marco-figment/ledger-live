@@ -14,10 +14,21 @@ export const LEDGER_BY_FIGMENT_VALIDATOR_GROUP_ADDRESS =
 export const availablePendingWithdrawals = (
   account: CeloAccount
 ): CeloPendingWithdrawal[] => {
-  const { pendingWithdrawals } = account.celoResources || {};
-
+  // const { pendingWithdrawals } = account.celoResources || {};
+  const pendingWithdrawals = [
+    {
+      value: new BigNumber("11000000000000000"),
+      time: new BigNumber("1661187183"),
+      index: 0,
+    },
+    {
+      value: new BigNumber("1000000000000000"),
+      time: new BigNumber("1661439326"),
+      index: 1,
+    },
+  ];
   return (pendingWithdrawals || []).filter(
-    (withdrawal) => new Date(withdrawal.time.toNumber() * 1000) < new Date()
+    (withdrawal) => new Date(withdrawal.time?.toNumber() * 1000) < new Date()
   );
 };
 
