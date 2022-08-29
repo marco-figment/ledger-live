@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function SummaryWords({
+export function SummaryWords({
   validator,
   account,
   amount,
