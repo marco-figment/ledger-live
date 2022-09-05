@@ -84,7 +84,7 @@ function WithdrawFlow() {
         }}
       />
       <Stack.Screen
-        name={ScreenName.CeloVoteValidationError}
+        name={ScreenName.CeloWithdrawValidationError}
         component={ValidationError}
         options={{
           headerShown: false,
