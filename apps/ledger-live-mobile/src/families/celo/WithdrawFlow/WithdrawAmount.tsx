@@ -66,7 +66,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   const bridge = getAccountBridge(account, parentAccount);
   const mainAccount = getMainAccount(account, parentAccount);
 
-  const [selected, setSelected] = useState(-1);
+  const [selected, setSelected] = useState(null);
 
   const {
     transaction,
@@ -105,7 +105,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
         setTransaction(bridge.updateTransaction(transaction, { index }));
       }
     },
-    [setTransaction, transaction, bridge],    
+    [setTransaction, transaction, bridge, selected],    
   );
 
   const onContinue = () => {
@@ -121,7 +121,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   // const { pendingWithdrawals } = (account as CeloAccount).celoResources;
   const pendingWithdrawals = [
     {
-      value: new BigNumber("6660000000000000"),
+      value: new BigNumber("6664700000000000"),
       time: new BigNumber("1662042839"),
       index: 0,
     },
@@ -129,6 +129,26 @@ export default function WithdrawAmount({ navigation, route }: Props) {
       value: new BigNumber("1000000000000000"),
       time: new BigNumber("1661439326"),
       index: 1,
+    },
+    {
+      value: new BigNumber("6660000040000000"),
+      time: new BigNumber("1662042839"),
+      index: 2,
+    },
+    {
+      value: new BigNumber("1000000000000000"),
+      time: new BigNumber("1661439326"),
+      index: 3,
+    },
+    {
+      value: new BigNumber("6660000000000000"),
+      time: new BigNumber("1662042839"),
+      index: 4,
+    },
+    {
+      value: new BigNumber("1000000000000000"),
+      time: new BigNumber("1661439326"),
+      index: 5,
     },
   ];
   // if ((transaction.index === null || transaction.index === undefined) && pendingWithdrawals[0])
@@ -165,42 +185,41 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   const warning = getFirstStatusError(status, "warnings");
 
   return (
-    <>
-      <TrackScreen category="WithdrawFlow" name="Amount" />
-      <SafeAreaView
-        style={[styles.root, { backgroundColor: colors.background }]}
-      >
-
-        <View style={styles.summary}>
-        <>
-          <Line>
+      <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]}>
+        <TrackScreen category="WithdrawFlow" name="Amount" />
+        <View style={styles.body}>
+          <View style={styles.amount}>
+            <Line>
               <Words>
                 <Trans i18nKey={`celo.withdraw.iWithdraw`} />
               </Words>
-              
-            {(pendingWithdrawals != null && pendingWithdrawals.length > 0)
-              ? (pendingWithdrawals.map(({value, time, index}) => {
-                const withdrawalTime = new Date(time.toNumber() * 1000);
-                const disabled = withdrawalTime > new Date();
-                return (
-                  selected === index ? (
-                    <Selectable selected={true} name={formatAmount(value)} />
-                   ) : (
-                    <Touchable onPress={() => onChange(index)}>
-                      <Selectable selected={false} name={formatAmount(value)} />
-                    </Touchable>
-                   )
-                )
-            })) : null }
             </Line>
-          </>
-          <View style={styles.bottomWrapper}>
-          <SendRowsFee
-            account={account}
-            parentAccount={parentAccount}
-            transaction={transaction}
-          />
-          <View style={styles.continueWrapper}>
+                
+              {(pendingWithdrawals != null && pendingWithdrawals.length > 0)
+                ? (pendingWithdrawals.map(({value, time, index}) => {
+                  const withdrawalTime = new Date(time.toNumber() * 1000);
+                  const disabled = withdrawalTime > new Date();
+                  return (
+                    selected === index ? (
+                      <Selectable selected={true} name={formatAmount(value)} />
+                    ) : (
+                      <Touchable onPress={() => onChange(index)}>
+                        <Selectable selected={false} name={formatAmount(value)} />
+                      </Touchable>
+                    )
+                  )
+              })) : <Text> Something went wrong, can't fetch any funds to withdraw </Text>}
+          </View>
+        </View>
+        
+          <View style={styles.footer}>
+          <View style={styles.feesRow}>
+              <SendRowsFee
+                account={account}
+                parentAccount={parentAccount}
+                transaction={transaction}
+              />
+            </View>
             <Button
               event="CeloWithdrawAmountContinue"
               type="primary"
@@ -213,14 +232,12 @@ export default function WithdrawAmount({ navigation, route }: Props) {
                   }
                 />
               }
+              containerStyle={styles.continueButton}
               onPress={onContinue}
               disabled={!!status.errors.amount || bridgePending}
             />
           </View>
-        </View>
-        </View>
       </SafeAreaView>
-    </>
   );
 }
 
@@ -291,6 +308,16 @@ const Selectable = ({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    flexDirection: "column",
+  },
+  body: {
+    flex: 1,
+    paddingHorizontal: 16,
+    justifyContent: "space-around",
+  },
+  amount: {
+    alignItems: "center",
+    marginVertical: 30,
   },
   container: {
     flex: 1,
@@ -337,11 +364,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     height: 40,
+    marginTop: 8,
   },
   validatorSelectionText: {
     paddingHorizontal: 8,
     fontSize: 18,
-    maxWidth: 240,
+    width: 180,
+    textAlign: "right"
   },
   validatorSelectionIcon: {
     borderTopRightRadius: 4,
@@ -350,6 +379,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 32,
     height: 40,
+  },
+  footer: {
+    flexDirection: "column",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 16,
+  },
+  feesRow: {
+    width: 330
+  },
+  continueButton: {
+    alignSelf: "stretch",
+    marginTop: 12,
   },
   wrapper: {
     flexGrow: 1,
