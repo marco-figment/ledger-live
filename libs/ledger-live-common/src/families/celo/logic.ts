@@ -17,8 +17,8 @@ export const availablePendingWithdrawals = (
   // const { pendingWithdrawals } = account.celoResources || {};
   const pendingWithdrawals = [
     {
-      value: new BigNumber("11000000000000000"),
-      time: new BigNumber("1661187183"),
+      value: new BigNumber("6660000000000000"),
+      time: new BigNumber("1662042839"),
       index: 0,
     },
     {

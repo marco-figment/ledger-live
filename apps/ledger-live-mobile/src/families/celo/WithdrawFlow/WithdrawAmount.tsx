@@ -102,7 +102,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   const onChange = useCallback(index => {
       if (index != null) {
         setSelected(index)
-        setTransaction(bridge.updateTransaction(transaction, { index: selected }));
+        setTransaction(bridge.updateTransaction(transaction, { index }));
       }
     },
     [setTransaction, transaction, bridge],    
@@ -111,7 +111,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   const onContinue = () => {
     navigation.navigate(ScreenName.CeloWithdrawSelectDevice, {
       ...route.params,
-      amount: status.amount,
+      transaction,
     });
   };
 
@@ -121,8 +121,8 @@ export default function WithdrawAmount({ navigation, route }: Props) {
   // const { pendingWithdrawals } = (account as CeloAccount).celoResources;
   const pendingWithdrawals = [
     {
-      value: new BigNumber("11000000000000000"),
-      time: new BigNumber("1661187183"),
+      value: new BigNumber("6660000000000000"),
+      time: new BigNumber("1662042839"),
       index: 0,
     },
     {
