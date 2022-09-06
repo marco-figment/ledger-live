@@ -115,13 +115,11 @@ export default function WithdrawAmount({ navigation, route }: Props) {
     });
   };
 
-  const blur = useCallback(() => Keyboard.dismiss(), []);
-
   if (!account || !transaction) return null;
   // const { pendingWithdrawals } = (account as CeloAccount).celoResources;
   const pendingWithdrawals = [
     {
-      value: new BigNumber("6664700000000000"),
+      value: new BigNumber("6660000000000000"),
       time: new BigNumber("1662042839"),
       index: 0,
     },
@@ -178,8 +176,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
     });
   }
   const currency = getAccountCurrency(account);
-  const error =
-    amount.eq(0) || bridgePending
+  const error = bridgePending
       ? null
       : getFirstStatusError(status, "errors");
   const warning = getFirstStatusError(status, "warnings");
@@ -203,9 +200,14 @@ export default function WithdrawAmount({ navigation, route }: Props) {
                     selected === index ? (
                       <Selectable selected={true} name={formatAmount(value)} />
                     ) : (
-                      <Touchable onPress={() => onChange(index)}>
-                        <Selectable selected={false} name={formatAmount(value)} />
-                      </Touchable>
+                        // bridgePending
+                        // ? <Selectable selected={false} name={formatAmount(value)} />
+                        // : <Touchable onPress={() => onChange(index)}>
+                        //     <Selectable selected={false} name={formatAmount(value)} />
+                        //   </Touchable>
+                        <Touchable onPress={() => onChange(index)}>
+                            <Selectable selected={false} name={formatAmount(value)} />
+                          </Touchable>
                     )
                   )
               })) : <Text> Something went wrong, can't fetch any funds to withdraw </Text>}
@@ -213,13 +215,14 @@ export default function WithdrawAmount({ navigation, route }: Props) {
         </View>
         
           <View style={styles.footer}>
-          <View style={styles.feesRow}>
-              <SendRowsFee
-                account={account}
-                parentAccount={parentAccount}
-                transaction={transaction}
-              />
-            </View>
+              <Text> {`error: ${JSON.stringify(error)}, warning: ${JSON.stringify(warning)}`} </Text>
+            <View style={styles.feesRow}>
+                <SendRowsFee
+                  account={account}
+                  parentAccount={parentAccount}
+                  transaction={transaction}
+                />
+              </View>
             <Button
               event="CeloWithdrawAmountContinue"
               type="primary"
@@ -234,7 +237,7 @@ export default function WithdrawAmount({ navigation, route }: Props) {
               }
               containerStyle={styles.continueButton}
               onPress={onContinue}
-              disabled={!!status.errors.amount || bridgePending}
+              disabled={!!error || bridgePending || selected == null}
             />
           </View>
       </SafeAreaView>
