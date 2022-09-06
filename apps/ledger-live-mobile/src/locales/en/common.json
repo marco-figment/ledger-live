@@ -3668,8 +3668,8 @@
         "confirmation": {
           "title": "Confirmation",
           "success": {
-            "title": "",
-            "text": "Your assets were withdrawn successfully. The withdrawn amount will be credited to your available balance.",
+            "title": "Withdraw transaction sent successfully",
+            "text": "The withdrawn amount will be credited to your available balance.",
             "cta": "View details"
           },
           "broadcastError": "Your transaction may have failed. Please wait a moment then check the transaction history before trying again."
